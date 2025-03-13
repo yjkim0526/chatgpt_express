@@ -12,9 +12,16 @@ const OpenAI = require("openai");
 
 const app = express();
 // app.use(cors());
-app.use(cors());
+app.use(
+  cors(
+    cors({
+      origin: "*",
+    })
+  )
+);
 app.use(express.json()); // 파라미터가 apllication/json 형태로 들어오면 파싱
 app.use(express.urlencoded({ extended: true })); // 파라미터가 application/x-www-form-urlencoded 형태로 들어오면 파싱
+console.log("app start ...");
 
 // 라우터 - 해당 경로 api 호출 요청이 오면
 app.use("/", router);
