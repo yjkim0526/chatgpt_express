@@ -3,7 +3,6 @@ const express = require("express");
 require("dotenv").config();
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-console.log("OPENAI_API_KEY : " + OPENAI_API_KEY);
 
 // ask 경로 요청시 라우터
 const router = express.Router();
@@ -20,16 +19,21 @@ app.use(express.urlencoded({ extended: true })); // 파라미터가 application/
 // 라우터 - 해당 경로 api 호출 요청이 오면
 app.use("/", router);
 router.post("/ask", async (req, res) => {
+  console.log("/ask");
   const prompt = req.body.prompt;
   console.log(">> prompt: " + prompt);
   const result = await chatGptApi(prompt);
-  // console.log(">> result: " + JSON.stringify(result));
+  console.log(">> result: " + JSON.stringify(result));
 
   if (result) {
     res.json({ response: result });
   } else {
     res.status(500).json({ error: "Failed to get response from OpenAI" });
   }
+});
+
+app.get("/hello", (req, res) => {
+  res.send("Hello");
 });
 
 const chatGptApi = async (prompt) => {
